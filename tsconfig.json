@@ -1,16 +1,10 @@
 {
   "compilerOptions": {
+    "verbatimModuleSyntax": false,
     "strict": true,
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "baseUrl": "src",
-    "sourceMap": true,
-    "target": "es6",
-    "lib": ["dom", "esnext"],
-    "outDir": "dist",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
-    "resolveJsonModule": true
-  }
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./"
+  },
+  "include": ["**/*.ts"]
 }

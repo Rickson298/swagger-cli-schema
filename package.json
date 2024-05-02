@@ -5,16 +5,21 @@
   "repository": "https://github.com/Rickson298/swagger-cli-schema.git",
   "author": "Rickson Oliveira <88171582+Rickson298@users.noreply.github.com>",
   "license": "MIT",
-  "description": "Streamline API development with Swagger CLI Schema, a powerful tool that seamlessly connects to your Swagger definitions via the command-line interface (CLI) and effortlessly generates well-defined request and response types.",
+  "devDependencies": {
+    "@eslint/js": "^9.1.1",
+    "@typescript-eslint/parser": "^7.8.0",
+    "globals": "^15.1.0",
+    "typescript-eslint": "^7.8.0",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard-with-typescript": "^39.1.1",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.3.1",
+    "prettier": "3.1.0",
+    "eslint-plugin-prettier": "^5.0.1"
+  },
   "dependencies": {
-    "@types/node": "14.14.3",
-    "@typescript-eslint/eslint-plugin": "4.5.0",
-    "@typescript-eslint/parser": "4.5.0",
-    "eslint": "7.12.0",
-    "eslint-config-prettier": "6.14.0",
-    "eslint-plugin-prettier": "3.1.4",
-    "prettier": "2.1.2",
-    "ts-node": "9.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.5"
   }
 }
