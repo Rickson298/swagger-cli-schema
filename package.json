@@ -1,0 +1,20 @@
+{
+  "name": "swagger-cli-schema",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Rickson298/swagger-cli-schema.git",
+  "author": "Rickson Oliveira <88171582+Rickson298@users.noreply.github.com>",
+  "license": "MIT",
+  "description": "Streamline API development with Swagger CLI Schema, a powerful tool that seamlessly connects to your Swagger definitions via the command-line interface (CLI) and effortlessly generates well-defined request and response types.",
+  "dependencies": {
+    "@types/node": "14.14.3",
+    "@typescript-eslint/eslint-plugin": "4.5.0",
+    "@typescript-eslint/parser": "4.5.0",
+    "eslint": "7.12.0",
+    "eslint-config-prettier": "6.14.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "prettier": "2.1.2",
+    "ts-node": "9.0.0",
+    "typescript": "^5.2.2"
+  }
+}
