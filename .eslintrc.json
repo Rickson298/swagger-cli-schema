@@ -1,6 +1,6 @@
 {
   "env": {
-    "browser": true,
+    "node": true,
     "es2021": true
   },
 
@@ -12,15 +12,11 @@
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
-    "ecmaFeatures": {
-      "tsx": true
-    },
     "sourceType": "module"
   },
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"],
-    "react/prop-types": "off",
     "no-unused-vars": "off",
     "no-console": "error",
     "@typescript-eslint/consistent-type-imports": [
