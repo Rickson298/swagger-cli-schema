@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 type LogSuccessParams = {
   title: string;
   description: string;

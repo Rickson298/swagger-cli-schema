@@ -1,29 +1,11 @@
-export type ResponseProperty =
-  | ObjectPropertyType
-  | PrimitivePropertyType
-  | ArrayPropertyType;
+import type { ResponseProperty } from 'swagger-client';
 
-type ObjectPropertyType = {
-  type?: 'object';
-  properties?: Record<string, ResponseProperty>;
-  description?: string;
-};
-
-type PrimitivePropertyType = {
-  type?: 'string' | 'boolean' | 'integer' | 'null';
-};
-
-type ArrayPropertyType = {
-  type?: 'array';
-  items?: ResponseProperty;
-};
-
-export function formatResponse(param: ResponseProperty) {
+export function formatSwaggerSchema(param: ResponseProperty) {
   // Recursively format the response object
   if (param?.type === 'object' && param.properties) {
     param = param.properties;
 
-    formatResponse(param);
+    formatSwaggerSchema(param);
   } else {
     // Iterate over the object properties
     for (const key in param) {
@@ -41,7 +23,7 @@ export function formatResponse(param: ResponseProperty) {
       // Object types
       if (keyValue.type === 'object') {
         newParam[key] = keyValue.properties as ResponseProperty;
-        formatResponse(keyValue);
+        formatSwaggerSchema(keyValue);
         continue;
       }
 
@@ -53,7 +35,7 @@ export function formatResponse(param: ResponseProperty) {
 
         if (isArrayOfObjects) {
           // Array of objects
-          newParam[key + '[]'] = formatResponse(arrayItems);
+          newParam[key + '[]'] = formatSwaggerSchema(arrayItems);
           delete newParam[key];
         } else {
           // Array of primitive types
@@ -74,7 +56,7 @@ export function formatResponse(param: ResponseProperty) {
   return param;
 }
 
-function jsTypesReplacer(foreignType?: string) {
+export function jsTypesReplacer(foreignType?: string) {
   if (foreignType === 'integer') {
     return 'number';
   }

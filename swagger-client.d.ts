@@ -8,8 +8,28 @@ declare module 'swagger-client' {
     };
   };
 
+  type PrimitivePropertyType = {
+    type?: 'string' | 'boolean' | 'integer' | 'null';
+  };
+
+  type ArrayPropertyType = {
+    type?: 'array';
+    items?: ResponseProperty;
+  };
+
+  export type ResponseProperty =
+    | ObjectPropertyType
+    | PrimitivePropertyType
+    | ArrayPropertyType;
+
+  export type ObjectPropertyType = {
+    type?: 'object';
+    properties?: Record<string, ResponseProperty>;
+    description?: string;
+  };
+
   export type RequestBody = {
-    content: {
+    content?: {
       'application/json': {
         schema: {
           required: string[];
@@ -21,14 +41,9 @@ declare module 'swagger-client' {
   };
 
   export type RequestSuccessType = {
-    content: {
+    content?: {
       'application/json': {
-        schema: {
-          type: 'object';
-          description: string;
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          properties: Record<string, any>;
-        };
+        schema: ObjectPropertyType;
       };
     };
   };
@@ -38,8 +53,9 @@ declare module 'swagger-client' {
     summary: string;
     operationId: string;
     parameters: RequestParameters[];
+    requestBody?: RequestBody;
     responses: {
-      200: RequestSuccessType;
+      [status: number]: RequestSuccessType | undefined;
     };
     __originalOperationId: string;
   };
@@ -48,10 +64,10 @@ declare module 'swagger-client' {
     tags: string[];
     summary: string;
     operationId: string;
-    parameters: RequestParameters[];
-    requestBody: RequestBody;
+    parameters?: RequestParameters[];
+    requestBody?: RequestBody;
     responses: {
-      200: RequestSuccessType;
+      [status: number]: RequestSuccessType;
     };
     __originalOperationId: string;
   };
@@ -61,9 +77,9 @@ declare module 'swagger-client' {
     summary: string;
     operationId: string;
     parameters: RequestParameters[];
-    requestBody: RequestBody;
+    requestBody?: RequestBody;
     responses: {
-      200: RequestSuccessType;
+      [status: number]: RequestSuccessType;
     };
     __originalOperationId: string;
   };
@@ -73,8 +89,9 @@ declare module 'swagger-client' {
     summary: string;
     operationId: string;
     parameters: RequestParameters[];
+    requestBody?: RequestBody;
     responses: {
-      200: RequestSuccessType;
+      [status: number]: RequestSuccessType;
     };
     __originalOperationId: string;
   };
@@ -84,9 +101,9 @@ declare module 'swagger-client' {
     summary: string;
     operationId: string;
     parameters: RequestParameters[];
-    requestBody: RequestBody;
+    requestBody?: RequestBody;
     responses: {
-      200: RequestSuccessType;
+      [status: number]: RequestSuccessType;
     };
     __originalOperationId: string;
   };

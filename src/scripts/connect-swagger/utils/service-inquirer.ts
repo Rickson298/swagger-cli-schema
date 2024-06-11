@@ -1,4 +1,8 @@
+// Libs
 import inquirer from 'inquirer';
+
+// Types
+import type { APIMethods } from './types';
 
 export class ServiceInquirer {
   serviceName: string;
@@ -56,7 +60,7 @@ export class ServiceInquirer {
     return serviceMethodResponse['paths-api'];
   }
 
-  async promptPathMethod(methods: string[]): Promise<string> {
+  async promptPathMethod(methods: string[]): Promise<APIMethods> {
     const serviceMethodResponse = await inquirer.prompt({
       type: 'list',
       name: 'path-methods',
@@ -64,6 +68,8 @@ export class ServiceInquirer {
       choices: methods,
     });
 
-    return serviceMethodResponse['path-methods'];
+    const selectedMethod: string = serviceMethodResponse['path-methods'];
+
+    return selectedMethod.toLowerCase() as APIMethods;
   }
 }
