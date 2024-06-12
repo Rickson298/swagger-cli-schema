@@ -1,11 +1,16 @@
-/* eslint-disable no-console */
+// Libs
 import SwaggerClient from 'swagger-client';
+import type { ObjectPropertyType } from 'swagger-client';
+import util from 'util';
+
+// Utils
+import { formatSwaggerSchema } from './utils/format-swagger-schema';
 import { getColorizedPaths } from './utils/get-colorized-paths';
 import { getApiMethods } from './utils/get-path-methods';
+
+// Classes
 import { ServiceInquirer } from './utils/service-inquirer';
-import type { ResponseProperty } from './utils/format-swagger-response';
-import { formatResponse } from './utils/format-swagger-response';
-import util from 'util';
+import { parseURLParams } from './utils/parse-query-params';
 
 console.log('Creating service...');
 
@@ -32,43 +37,30 @@ export async function connectToSwagger({
   let selectedApiMethod = apiMethods[0];
 
   if (apiHasMultipleMethods) {
-    selectedApiMethod = await serviceInquirer.promptPathMethod(apiMethods);
+    selectedApiMethod = await serviceInquirer.promptPathMethod(
+      apiMethods.map((method) => method.toUpperCase()),
+    );
   }
 
   const parsedPath = selectedPath.split(' ').at(-1) || '';
 
   const pathMethods = clientSwagger?.spec?.paths?.[parsedPath];
-  // console.log({
-  //   pathMethods,
-  //   selectedPath,
-  //   selectedApiMethod,
-  //   paths: clientSwagger?.spec.paths,
-  //   parsedPath,
-  // }); // Output: ['GET', 'POST']
+  const requestSchema = pathMethods[selectedApiMethod];
 
-  // const response = swaggerPathFormatter(pathMethods as SwaggerPath, 'post');
-  // console.log(util.inspect(pathMethods, false, null, true));
-  // console.log(util.inspect(pathMethods, false, null, true));
+  const successResponse: Record<number, ObjectPropertyType> = {
+    200: requestSchema?.responses[200]?.content['application/json'].schema,
+    202: requestSchema?.responses[202]?.content['application/json'].schema,
+  };
 
-  // console.log(util.inspect(pathMethods, false, null, true));
-
-  // console.log(util.inspect(pathMethods?.post, false, null, true));
-  console.log(
-    util.inspect(
-      formatResponse(
-        pathMethods?.post?.responses[200].content['application/json']
-          .schema as ResponseProperty,
-      ),
-      false,
-      null,
-      true,
-    ),
+  const requestBody = formatSwaggerSchema(
+    requestSchema.requestBody?.content?.['application/json']?.schema,
   );
 
-  // await serviceInquirer.promptForServiceName();
-  // await serviceInquirer.promptServiceMethod();
+  const queryParams = requestSchema.parameters;
 
-  // createServiceFolder(serviceInquirer.serviceName);
+  const parsedQueryParams = parseURLParams(queryParams);
+
+  console.log(util.inspect(parsedQueryParams, false, null, true));
 }
 
 async function getSwaggerDocData(swaggerUrl: string) {

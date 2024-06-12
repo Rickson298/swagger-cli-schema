@@ -18,7 +18,6 @@
   "rules": {
     "prettier/prettier": ["error"],
     "no-unused-vars": "off",
-    "no-console": "error",
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {
