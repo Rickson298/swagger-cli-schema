@@ -1,6 +1,11 @@
-import type { ResponseProperty } from 'swagger-client';
+// Constants
+import { ARRAY_IDENTITY } from './constants';
 
-export function formatSwaggerSchema(param: ResponseProperty) {
+// Types
+import type { ParsedSchema } from 'src/shared/types/schema-types';
+import type { ApiSchema } from 'swagger-client';
+
+export function formatSwaggerSchema(param: ApiSchema): ParsedSchema {
   // Recursively format the response object
   if (param?.type === 'object' && param.properties) {
     param = param.properties;
@@ -9,11 +14,13 @@ export function formatSwaggerSchema(param: ResponseProperty) {
   } else {
     // Iterate over the object properties
     for (const key in param) {
-      const newParam = param as Record<string, ResponseProperty>;
+      const newParam = param as Record<string, ApiSchema>;
 
       const keyValue = newParam[key];
       const isEmptyObject =
         param?.type === 'object' && param?.description === 'empty object';
+
+      let newKey = key;
 
       if (isEmptyObject) {
         param = {};
@@ -22,26 +29,25 @@ export function formatSwaggerSchema(param: ResponseProperty) {
 
       // Object types
       if (keyValue.type === 'object') {
-        newParam[key] = keyValue.properties as ResponseProperty;
+        newParam[key] = keyValue.properties as ApiSchema;
         formatSwaggerSchema(keyValue);
         continue;
       }
 
       // Array types
       if (keyValue.type === 'array' && keyValue.items) {
+        newKey = newKey + ARRAY_IDENTITY;
         const arrayItems = keyValue.items;
 
         const isArrayOfObjects = arrayItems.type === 'object';
 
         if (isArrayOfObjects) {
           // Array of objects
-          newParam[key + '[]'] = formatSwaggerSchema(arrayItems);
+          newParam[newKey] = formatSwaggerSchema(arrayItems);
           delete newParam[key];
         } else {
           // Array of primitive types
-          newParam[key + '[]'] = jsTypesReplacer(
-            arrayItems.type,
-          ) as ResponseProperty;
+          newParam[newKey] = jsTypesReplacer(arrayItems.type) as ApiSchema;
           delete newParam[key];
         }
 
@@ -49,11 +55,11 @@ export function formatSwaggerSchema(param: ResponseProperty) {
       }
 
       // Primitive types
-      newParam[key] = jsTypesReplacer(keyValue.type) as ResponseProperty;
+      newParam[key] = jsTypesReplacer(keyValue.type) as ApiSchema;
     }
   }
 
-  return param;
+  return param as ParsedSchema;
 }
 
 export function jsTypesReplacer(foreignType?: string) {

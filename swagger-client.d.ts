@@ -13,18 +13,20 @@ declare module 'swagger-client' {
   };
 
   type ArrayPropertyType = {
+    required: string[];
     type?: 'array';
-    items?: ResponseProperty;
+    items?: ApiSchema;
   };
 
-  export type ResponseProperty =
+  export type ApiSchema =
     | ObjectPropertyType
     | PrimitivePropertyType
     | ArrayPropertyType;
 
   export type ObjectPropertyType = {
+    required: string[];
     type?: 'object';
-    properties?: Record<string, ResponseProperty>;
+    properties?: Record<string, ApiSchema>;
     description?: string;
   };
 

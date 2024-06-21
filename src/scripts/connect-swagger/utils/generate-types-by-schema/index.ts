@@ -1,0 +1,48 @@
+// Utils
+import { isValidKey } from 'src/shared/utils/is-valid-object-key';
+
+// Types
+import type { ParsedSchema } from 'src/shared/types/schema-types';
+
+// Constants
+import { ARRAY_IDENTITY } from '../format-swagger-schema/constants';
+
+export function generateTypesBySchema(
+  schema: ParsedSchema,
+  serviceName?: string,
+) {
+  const stringifiedSchema = normalizeSchemaToString(schema);
+  return `export type ${serviceName} = ${
+    stringifiedSchema === ''
+      ? 'Record<string, never>'
+      : `{${stringifiedSchema}}`
+  }`;
+}
+
+export function normalizeSchemaToString(schema: ParsedSchema) {
+  let slotString = '';
+  for (const key in schema) {
+    const keyValue = schema[key];
+
+    const parsedKey = isValidKey(key) ? key : `'${key}'`;
+    const sanitizedKey = parsedKey.replace(ARRAY_IDENTITY, '');
+
+    const isObjectType = typeof keyValue === 'object';
+
+    if (parsedKey.includes(ARRAY_IDENTITY)) {
+      const typeContent = isObjectType
+        ? normalizeSchemaToString(keyValue)
+        : keyValue;
+
+      slotString += `${sanitizedKey}: Array<${isObjectType ? `{${typeContent}}` : typeContent}>;\n`;
+    }
+
+    if (isObjectType) {
+      slotString += `${sanitizedKey}: {${normalizeSchemaToString(keyValue)}};\n`;
+    } else {
+      slotString += `${sanitizedKey}: ${keyValue};\n`;
+    }
+  }
+
+  return slotString;
+}
