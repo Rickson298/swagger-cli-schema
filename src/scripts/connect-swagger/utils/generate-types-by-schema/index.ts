@@ -1,11 +1,12 @@
 // Utils
 import { isValidKey } from 'src/shared/utils/is-valid-object-key';
+import { sanitizeKey } from './utils/sanitize-key';
 
 // Types
 import type { ParsedSchema } from 'src/shared/types/schema-types';
 
 // Constants
-import { ARRAY_IDENTITY } from '../format-swagger-schema/constants';
+import { ARRAY_ID, REQUIRED_ID } from '../format-swagger-schema/constants';
 
 export function generateTypesBySchema(
   schema: ParsedSchema,
@@ -25,22 +26,28 @@ export function normalizeSchemaToString(schema: ParsedSchema) {
     const keyValue = schema[key];
 
     const parsedKey = isValidKey(key) ? key : `'${key}'`;
-    const sanitizedKey = parsedKey.replace(ARRAY_IDENTITY, '');
+    let sanitizedKey = sanitizeKey(parsedKey);
 
     const isObjectType = typeof keyValue === 'object';
 
-    if (parsedKey.includes(ARRAY_IDENTITY)) {
+    if (parsedKey.includes(REQUIRED_ID)) {
+      sanitizedKey = sanitizedKey + ':';
+    } else {
+      sanitizedKey = sanitizedKey + '?:';
+    }
+
+    if (parsedKey.includes(ARRAY_ID)) {
       const typeContent = isObjectType
         ? normalizeSchemaToString(keyValue)
         : keyValue;
 
-      slotString += `${sanitizedKey}: Array<${isObjectType ? `{${typeContent}}` : typeContent}>;\n`;
+      slotString += `${sanitizedKey} Array<${isObjectType ? `{${typeContent}}` : typeContent}>;\n`;
     }
 
     if (isObjectType) {
-      slotString += `${sanitizedKey}: {${normalizeSchemaToString(keyValue)}};\n`;
+      slotString += `${sanitizedKey} {${normalizeSchemaToString(keyValue)}};\n`;
     } else {
-      slotString += `${sanitizedKey}: ${keyValue};\n`;
+      slotString += `${sanitizedKey} ${keyValue};\n`;
     }
   }
 

@@ -1,1 +1,2 @@
-export const ARRAY_IDENTITY = '_ARRAY_TYPE';
+export const ARRAY_ID = '_ARRAY_TYPE';
+export const REQUIRED_ID = '_REQUIRED';
