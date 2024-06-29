@@ -1,10 +1,20 @@
 declare module 'swagger-client' {
+  export type PrimitivePropertyType =
+    | 'string'
+    | 'integer'
+    | 'boolean'
+    | 'object'
+    | 'array';
+
   export type RequestParameters = {
     name: string;
     in: 'query' | 'path';
     required: boolean;
     schema: {
-      type: 'string' | 'integer' | 'boolean' | 'object' | 'array';
+      type?: PrimitivePropertyType;
+      items?: {
+        type: PrimitivePropertyType;
+      };
     };
   };
 

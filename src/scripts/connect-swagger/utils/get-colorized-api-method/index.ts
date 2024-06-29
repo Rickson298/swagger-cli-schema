@@ -1,10 +1,11 @@
 import type { APIMethods } from '../types';
 
 const METHOD_COLORS = {
-  get: '\x1b[32m', // Verde para GET
-  post: '\x1b[34m', // Azul para POST
-  put: '\x1b[33m', // Amarelo para PUT
-  delete: '\x1b[31m', // Vermelho para DELETE
+  get: '\x1b[32m', // green to GET
+  post: '\x1b[34m', // blue to POST
+  put: '\x1b[33m', // yellow to PUT
+  delete: '\x1b[31m', // red to DELETE
+  patch: '\x1b[36m', // cyan to PATCH
 };
 
 export function getColorizedApiMethod(method: APIMethods) {

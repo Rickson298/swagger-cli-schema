@@ -1,16 +1,18 @@
 // Libs
 import SwaggerClient from 'swagger-client';
-import type { ObjectPropertyType } from 'swagger-client';
-import util from 'util';
+import type { ApiSchema, ObjectPropertyType } from 'swagger-client';
 
 // Utils
 import { formatSwaggerSchema } from './utils/format-swagger-schema';
 import { getColorizedPaths } from './utils/get-colorized-paths';
 import { getApiMethods } from './utils/get-path-methods';
+import { parseURLParams } from './utils/parse-query-params';
+import { kebabCaseToPascalCase } from 'src/shared/utils/kekab-case-to-pascal-case';
+import { generateTypesBySchema } from './utils/generate-types-by-schema';
+import { formatCode } from 'src/shared/utils/format-code';
 
 // Classes
 import { ServiceInquirer } from './utils/service-inquirer';
-import { parseURLParams } from './utils/parse-query-params';
 
 console.log('Creating service...');
 
@@ -53,14 +55,39 @@ export async function connectToSwagger({
   };
 
   const requestBody = formatSwaggerSchema(
-    requestSchema.requestBody?.content?.['application/json']?.schema,
+    requestSchema.requestBody?.content?.['application/json']
+      ?.schema as ApiSchema,
+    requestSchema.requestBody?.content?.['application/json']?.schema.required,
   );
 
-  const queryParams = requestSchema.parameters;
+  const queryParams = parseURLParams(requestSchema.parameters);
 
-  const parsedQueryParams = parseURLParams(queryParams);
+  const serviceName = kebabCaseToPascalCase(
+    requestSchema.__originalOperationId,
+  );
 
-  console.log(util.inspect(parsedQueryParams, false, null, true));
+  const parsedResponse = formatSwaggerSchema(
+    successResponse[200] || successResponse[202],
+    [],
+  );
+
+  const responseTypes = generateTypesBySchema(
+    parsedResponse,
+    serviceName + 'Response',
+  );
+  const requestTypes = generateTypesBySchema(
+    { ...requestBody, ...queryParams },
+    serviceName + 'Request',
+  );
+
+  const indentedResponseTypes = await formatCode(responseTypes);
+  const indentedRequestBodyTypes = await formatCode(requestTypes);
+
+  const indentedTypes = await formatCode(
+    indentedRequestBodyTypes + indentedResponseTypes,
+  );
+
+  console.log(indentedTypes);
 }
 
 async function getSwaggerDocData(swaggerUrl: string) {

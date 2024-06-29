@@ -1,1 +1,1 @@
-export type APIMethods = 'get' | 'post' | 'put' | 'delete';
+export type APIMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';

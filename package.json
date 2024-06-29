@@ -27,7 +27,6 @@
   "dependencies": {
     "@types/inquirer": "^9.0.7",
     "inquirer": "^9.2.20",
-    "javascript-stringify": "^2.1.0",
     "swagger-client": "^3.27.2"
   }
 }
