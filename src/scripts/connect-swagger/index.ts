@@ -86,6 +86,8 @@ export async function connectToSwagger({
   const indentedTypes = await formatCode(
     indentedRequestTypes.concat(indentedResponseTypes),
   );
+
+  console.log(indentedTypes);
 }
 
 async function getSwaggerDocData(swaggerUrl: string) {

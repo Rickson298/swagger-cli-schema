@@ -18,19 +18,19 @@ declare module 'swagger-client' {
     };
   };
 
-  type PrimitivePropertyType = {
+  type PrimitiveSchemaPropertyType = {
     type?: 'string' | 'boolean' | 'integer' | 'null';
   };
 
   type ArrayPropertyType = {
-    required: string[];
+    required?: string[];
     type?: 'array';
     items?: ApiSchema;
   };
 
   export type ApiSchema =
     | ObjectPropertyType
-    | PrimitivePropertyType
+    | PrimitiveSchemaPropertyType
     | ArrayPropertyType;
 
   export type ObjectPropertyType = {
