@@ -81,13 +81,11 @@ export async function connectToSwagger({
   );
 
   const indentedResponseTypes = await formatCode(responseTypes);
-  const indentedRequestBodyTypes = await formatCode(requestTypes);
+  const indentedRequestTypes = await formatCode(requestTypes);
 
   const indentedTypes = await formatCode(
-    indentedRequestBodyTypes + indentedResponseTypes,
+    indentedRequestTypes.concat(indentedResponseTypes),
   );
-
-  console.log(indentedTypes);
 }
 
 async function getSwaggerDocData(swaggerUrl: string) {

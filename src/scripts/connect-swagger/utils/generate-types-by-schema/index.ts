@@ -42,9 +42,8 @@ export function normalizeSchemaToString(schema: ParsedSchema) {
         : keyValue;
 
       slotString += `${sanitizedKey} Array<${isObjectType ? `{${typeContent}}` : typeContent}>;\n`;
-    }
-
-    if (isObjectType) {
+      delete schema[key];
+    } else if (isObjectType) {
       slotString += `${sanitizedKey} {${normalizeSchemaToString(keyValue)}};\n`;
     } else {
       slotString += `${sanitizedKey} ${keyValue};\n`;
