@@ -9,7 +9,8 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "outDir": "dist"
   },
   "include": ["src/**/*.ts"]
 }
