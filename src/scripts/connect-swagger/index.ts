@@ -87,7 +87,12 @@ export async function connectToSwagger({
     indentedRequestTypes.concat(indentedResponseTypes),
   );
 
-  console.log(indentedTypes);
+  return {
+    types: indentedTypes,
+    serviceName,
+    selectedApiMethod,
+    selectedPath: parsedPath,
+  };
 }
 
 async function getSwaggerDocData(swaggerUrl: string) {
