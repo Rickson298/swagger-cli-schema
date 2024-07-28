@@ -7,9 +7,9 @@ import { formatSwaggerSchema } from './utils/format-swagger-schema';
 import { getColorizedPaths } from './utils/get-colorized-paths';
 import { getApiMethods } from './utils/get-path-methods';
 import { parseURLParams } from './utils/parse-query-params';
-import { kebabCaseToPascalCase } from 'src/shared/utils/kekab-case-to-pascal-case';
+import { kebabCaseToPascalCase } from '../shared/utils/kekab-case-to-pascal-case';
 import { generateTypesBySchema } from './utils/generate-types-by-schema';
-import { formatCode } from 'src/shared/utils/format-code';
+import { formatCode } from '../shared/utils/format-code';
 
 // Classes
 import { ServiceInquirer } from './utils/service-inquirer';
