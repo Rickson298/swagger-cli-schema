@@ -1,3 +1,3 @@
-import { connectToSwagger } from './scripts/connect-swagger';
+import { connectToSwagger } from './connect-swagger';
 
 export { connectToSwagger };
