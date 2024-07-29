@@ -14,7 +14,6 @@
     "build": "tsup",
     "connect-swagger": "npx tsx debug-index.ts"
   },
-  "type": "module",
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
