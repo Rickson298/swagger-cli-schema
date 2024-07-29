@@ -4,8 +4,7 @@ export default defineConfig({
   entry: ['src'],
   format: ['esm'], // Build for commonJS and ESmodules
   dts: true, // Generate declaration file (.d.ts)
-  splitting: false,
+  splitting: true,
   sourcemap: false,
   clean: true,
-  minify: 'terser',
 });
