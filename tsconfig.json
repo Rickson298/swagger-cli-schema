@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "module": "ESNext",
     "verbatimModuleSyntax": false,
     "baseUrl": "./",
     "lib": ["DOM", "ESNext"],
@@ -9,7 +8,6 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "target": "ESNext",
     "outDir": "dist"
   },
   "include": ["src/**/*.ts"]
