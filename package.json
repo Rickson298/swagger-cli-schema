@@ -24,7 +24,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsup",
-    "connect-swagger": "npx tsx debug-index.ts"
+    "connect-swagger": "npx tsx debug-index.ts",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
@@ -36,6 +37,7 @@
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.3.3",
     "terser": "^5.31.2",
     "tsup": "^8.1.0",
     "typescript": "^5.4.5",
