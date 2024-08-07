@@ -36,7 +36,23 @@ import { connectToSwagger } from 'swagger-cli-schema';
 
 connectToSwagger({
   swaggerURLs: ['https://my-swagger-doc.com.br/apis/docs/swagger.json'],
-});
+}).then(
+  ({
+    requestTypes,
+    responseTypes,
+    selectedApiMethod,
+    selectedPath,
+    serviceName,
+  }) => {
+    console.log({
+      requestTypes,
+      responseTypes,
+      selectedApiMethod,
+      selectedPath,
+      serviceName,
+    });
+  }
+);
 ```
 
 The `swagger-cli-schema` package provides a single function: connectToSwagger. You can execute this function at any point in your script. It is responsible for retrieving the information of the selected service.
