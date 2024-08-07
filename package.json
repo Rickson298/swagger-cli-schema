@@ -4,6 +4,18 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "description": "A CLI to generate a schema from a swagger file",
+  "keywords": [
+    "swagger",
+    "schema",
+    "cli",
+    "typescript",
+    "json",
+    "yaml",
+    "javascript",
+    "js",
+    "ts"
+  ],
   "files": [
     "dist"
   ],
