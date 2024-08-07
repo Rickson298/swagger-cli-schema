@@ -9,7 +9,7 @@ import { getApiMethods } from './utils/get-path-methods';
 import { parseURLParams } from './utils/parse-query-params';
 import { kebabCaseToPascalCase } from '../shared/utils/kekab-case-to-pascal-case';
 import { generateTypesBySchema } from './utils/generate-types-by-schema';
-import { formatCode } from '../shared/utils/format-code';
+import { logSuccess } from 'src/shared/utils/log-success';
 
 // Classes
 import { ServiceInquirer } from './utils/service-inquirer';
@@ -40,7 +40,7 @@ export async function connectToSwagger({
 
   if (apiHasMultipleMethods) {
     selectedApiMethod = await serviceInquirer.promptPathMethod(
-      apiMethods.map((method) => method.toUpperCase()),
+      apiMethods.map((method) => method.toUpperCase())
     );
   }
 
@@ -57,41 +57,41 @@ export async function connectToSwagger({
   const requestBody = formatSwaggerSchema(
     requestSchema.requestBody?.content?.['application/json']
       ?.schema as ApiSchema,
-    requestSchema.requestBody?.content?.['application/json']?.schema.required,
+    requestSchema.requestBody?.content?.['application/json']?.schema.required
   );
 
   const queryParams = parseURLParams(requestSchema.parameters);
 
   const serviceName = kebabCaseToPascalCase(
-    requestSchema.__originalOperationId,
+    requestSchema.__originalOperationId
   );
 
   const parsedResponse = formatSwaggerSchema(
     successResponse[200] || successResponse[202],
-    [],
+    []
   );
 
   const responseTypes = generateTypesBySchema(
     parsedResponse,
-    serviceName + 'Response',
+    serviceName + 'Response'
   );
   const requestTypes = generateTypesBySchema(
     { ...requestBody, ...queryParams },
-    serviceName + 'Request',
+    serviceName + 'Request'
   );
 
-  const indentedResponseTypes = await formatCode(responseTypes);
-  const indentedRequestTypes = await formatCode(requestTypes);
-
-  const indentedTypes = await formatCode(
-    indentedRequestTypes.concat(indentedResponseTypes),
-  );
+  logSuccess({
+    title: 'Service info created!',
+    description:
+      'Use the following information to create your service, you can format the code as you wish using prettier or any other code formatter.',
+  });
 
   return {
-    types: indentedTypes,
     serviceName,
     selectedApiMethod,
     selectedPath: parsedPath,
+    requestTypes,
+    responseTypes,
   };
 }
 
