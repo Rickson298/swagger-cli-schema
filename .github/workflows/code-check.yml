@@ -1,0 +1,23 @@
+name: Code check
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Yarn
+        run: npm install --global yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run typescript check
+        run: yarn tsc --noEmit
+
+      - name: Run Yarn Lint
+        run: yarn lint
